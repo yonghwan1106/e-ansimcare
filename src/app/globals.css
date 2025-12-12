@@ -45,71 +45,77 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.98 0.005 250);
-  --foreground: oklch(0.2 0.02 250);
+  /* KHNP CI Colors: Primary Blue #0066B3, Accent Green #00A651 */
+  --background: oklch(0.98 0.01 230);
+  --foreground: oklch(0.2 0.02 230);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 250);
+  --card-foreground: oklch(0.2 0.02 230);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 250);
-  --primary: oklch(0.45 0.15 250);
+  --popover-foreground: oklch(0.2 0.02 230);
+  --primary: oklch(0.48 0.16 240);  /* KHNP Blue #0066B3 */
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.01 250);
-  --secondary-foreground: oklch(0.3 0.02 250);
-  --muted: oklch(0.96 0.005 250);
-  --muted-foreground: oklch(0.5 0.02 250);
-  --accent: oklch(0.55 0.15 160);
+  --secondary: oklch(0.96 0.01 230);
+  --secondary-foreground: oklch(0.3 0.02 230);
+  --muted: oklch(0.96 0.005 230);
+  --muted-foreground: oklch(0.5 0.02 230);
+  --accent: oklch(0.58 0.16 155);  /* KHNP Green #00A651 */
   --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.55 0.2 25);
-  --border: oklch(0.92 0.005 250);
-  --input: oklch(0.92 0.005 250);
-  --ring: oklch(0.45 0.15 250);
-  --chart-1: oklch(0.45 0.15 250);
-  --chart-2: oklch(0.55 0.15 160);
-  --chart-3: oklch(0.65 0.15 45);
-  --chart-4: oklch(0.55 0.2 25);
-  --chart-5: oklch(0.6 0.15 300);
+  --border: oklch(0.92 0.01 230);
+  --input: oklch(0.92 0.01 230);
+  --ring: oklch(0.48 0.16 240);
+  --chart-1: oklch(0.48 0.16 240);  /* KHNP Blue */
+  --chart-2: oklch(0.58 0.16 155);  /* KHNP Green */
+  --chart-3: oklch(0.65 0.15 45);   /* Orange */
+  --chart-4: oklch(0.55 0.2 25);    /* Red */
+  --chart-5: oklch(0.6 0.12 280);   /* Purple */
   --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.2 0.02 250);
-  --sidebar-primary: oklch(0.45 0.15 250);
+  --sidebar-foreground: oklch(0.2 0.02 230);
+  --sidebar-primary: oklch(0.48 0.16 240);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.96 0.01 250);
-  --sidebar-accent-foreground: oklch(0.3 0.02 250);
-  --sidebar-border: oklch(0.92 0.005 250);
-  --sidebar-ring: oklch(0.45 0.15 250);
+  --sidebar-accent: oklch(0.96 0.01 230);
+  --sidebar-accent-foreground: oklch(0.3 0.02 230);
+  --sidebar-border: oklch(0.92 0.01 230);
+  --sidebar-ring: oklch(0.48 0.16 240);
+  /* Custom KHNP colors for direct use */
+  --khnp-blue: #0066B3;
+  --khnp-green: #00A651;
+  --khnp-blue-light: #E6F0F8;
+  --khnp-green-light: #E6F5EC;
 }
 
 .dark {
-  --background: oklch(0.15 0.02 250);
-  --foreground: oklch(0.95 0.005 250);
-  --card: oklch(0.2 0.02 250);
-  --card-foreground: oklch(0.95 0.005 250);
-  --popover: oklch(0.2 0.02 250);
-  --popover-foreground: oklch(0.95 0.005 250);
-  --primary: oklch(0.6 0.15 250);
-  --primary-foreground: oklch(0.1 0.02 250);
-  --secondary: oklch(0.25 0.02 250);
-  --secondary-foreground: oklch(0.95 0.005 250);
-  --muted: oklch(0.25 0.02 250);
-  --muted-foreground: oklch(0.65 0.02 250);
-  --accent: oklch(0.6 0.15 160);
-  --accent-foreground: oklch(0.1 0.02 250);
+  --background: oklch(0.15 0.02 230);
+  --foreground: oklch(0.95 0.005 230);
+  --card: oklch(0.2 0.02 230);
+  --card-foreground: oklch(0.95 0.005 230);
+  --popover: oklch(0.2 0.02 230);
+  --popover-foreground: oklch(0.95 0.005 230);
+  --primary: oklch(0.58 0.14 240);  /* KHNP Blue lighter for dark mode */
+  --primary-foreground: oklch(0.1 0.02 230);
+  --secondary: oklch(0.25 0.02 230);
+  --secondary-foreground: oklch(0.95 0.005 230);
+  --muted: oklch(0.25 0.02 230);
+  --muted-foreground: oklch(0.65 0.02 230);
+  --accent: oklch(0.62 0.14 155);  /* KHNP Green lighter for dark mode */
+  --accent-foreground: oklch(0.1 0.02 230);
   --destructive: oklch(0.6 0.2 25);
-  --border: oklch(0.3 0.02 250);
-  --input: oklch(0.3 0.02 250);
-  --ring: oklch(0.6 0.15 250);
-  --chart-1: oklch(0.6 0.15 250);
-  --chart-2: oklch(0.6 0.15 160);
-  --chart-3: oklch(0.7 0.15 45);
-  --chart-4: oklch(0.6 0.2 25);
-  --chart-5: oklch(0.65 0.15 300);
-  --sidebar: oklch(0.18 0.02 250);
-  --sidebar-foreground: oklch(0.95 0.005 250);
-  --sidebar-primary: oklch(0.6 0.15 250);
-  --sidebar-primary-foreground: oklch(0.1 0.02 250);
-  --sidebar-accent: oklch(0.25 0.02 250);
-  --sidebar-accent-foreground: oklch(0.95 0.005 250);
-  --sidebar-border: oklch(0.3 0.02 250);
-  --sidebar-ring: oklch(0.6 0.15 250);
+  --border: oklch(0.3 0.02 230);
+  --input: oklch(0.3 0.02 230);
+  --ring: oklch(0.58 0.14 240);
+  --chart-1: oklch(0.58 0.14 240);  /* KHNP Blue */
+  --chart-2: oklch(0.62 0.14 155);  /* KHNP Green */
+  --chart-3: oklch(0.7 0.15 45);    /* Orange */
+  --chart-4: oklch(0.6 0.2 25);     /* Red */
+  --chart-5: oklch(0.65 0.12 280);  /* Purple */
+  --sidebar: oklch(0.18 0.02 230);
+  --sidebar-foreground: oklch(0.95 0.005 230);
+  --sidebar-primary: oklch(0.58 0.14 240);
+  --sidebar-primary-foreground: oklch(0.1 0.02 230);
+  --sidebar-accent: oklch(0.25 0.02 230);
+  --sidebar-accent-foreground: oklch(0.95 0.005 230);
+  --sidebar-border: oklch(0.3 0.02 230);
+  --sidebar-ring: oklch(0.58 0.14 240);
 }
 
 @layer base {
@@ -121,16 +127,56 @@
   }
 }
 
-/* Custom utility classes */
+/* Custom utility classes - KHNP Branding */
 .gradient-primary {
-  background: linear-gradient(135deg, oklch(0.45 0.15 250) 0%, oklch(0.55 0.15 160) 100%);
+  background: linear-gradient(135deg, var(--khnp-blue) 0%, var(--khnp-green) 100%);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, oklch(0.45 0.15 250) 0%, oklch(0.55 0.15 160) 100%);
+  background: linear-gradient(135deg, var(--khnp-blue) 0%, var(--khnp-green) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.gradient-khnp {
+  background: linear-gradient(135deg, #0066B3 0%, #00A651 100%);
+}
+
+.gradient-khnp-reverse {
+  background: linear-gradient(135deg, #00A651 0%, #0066B3 100%);
+}
+
+.bg-khnp-blue {
+  background-color: var(--khnp-blue);
+}
+
+.bg-khnp-green {
+  background-color: var(--khnp-green);
+}
+
+.bg-khnp-blue-light {
+  background-color: var(--khnp-blue-light);
+}
+
+.bg-khnp-green-light {
+  background-color: var(--khnp-green-light);
+}
+
+.text-khnp-blue {
+  color: var(--khnp-blue);
+}
+
+.text-khnp-green {
+  color: var(--khnp-green);
+}
+
+.border-khnp-blue {
+  border-color: var(--khnp-blue);
+}
+
+.border-khnp-green {
+  border-color: var(--khnp-green);
 }
 
 .stat-card {
@@ -144,5 +190,57 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, oklch(0.45 0.15 250), oklch(0.55 0.15 160));
+  background: linear-gradient(90deg, var(--khnp-blue), var(--khnp-green));
+}
+
+/* KHNP Brand animations */
+@keyframes pulse-khnp {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 179, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(0, 102, 179, 0);
+  }
+}
+
+.animate-pulse-khnp {
+  animation: pulse-khnp 2s infinite;
+}
+
+/* Risk level colors */
+.risk-critical {
+  @apply bg-red-100 text-red-800 border-red-200;
+}
+
+.risk-high {
+  @apply bg-orange-100 text-orange-800 border-orange-200;
+}
+
+.risk-medium {
+  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+}
+
+.risk-low {
+  @apply bg-green-100 text-green-800 border-green-200;
+}
+
+/* Status colors */
+.status-detected {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-investigating {
+  @apply bg-purple-100 text-purple-800;
+}
+
+.status-connected {
+  @apply bg-cyan-100 text-cyan-800;
+}
+
+.status-supported {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-monitoring {
+  @apply bg-gray-100 text-gray-800;
 }

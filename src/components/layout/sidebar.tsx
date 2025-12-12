@@ -49,14 +49,14 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   return (
     <div className="flex h-full flex-col">
-      {/* Logo */}
+      {/* Logo - KHNP Branding */}
       <div className="flex h-16 items-center gap-2 border-b px-4">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-green-500">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#0066B3] to-[#00A651]">
           <Zap className="h-5 w-5 text-white" />
         </div>
         <div className="flex flex-col">
           <span className="text-lg font-bold text-foreground">E-안심케어</span>
-          <span className="text-[10px] text-muted-foreground">AI 에너지 복지 플랫폼</span>
+          <span className="text-[10px] text-muted-foreground">한수원 AI 에너지 복지</span>
         </div>
       </div>
 

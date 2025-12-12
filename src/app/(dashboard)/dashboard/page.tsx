@@ -34,6 +34,10 @@ import {
 import Link from 'next/link';
 import { dashboardStats, monthlyTrends, regionStats, alerts, households } from '@/data/mock-data';
 
+// KHNP CI Colors
+const KHNP_BLUE = '#0066B3';
+const KHNP_GREEN = '#00A651';
+
 const statCards = [
   {
     title: '총 발굴 가구',
@@ -41,8 +45,8 @@ const statCards = [
     change: `+${dashboardStats.newThisMonth} 이번 달`,
     trend: 'up',
     icon: Search,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100',
+    color: 'text-[#0066B3]',
+    bgColor: 'bg-[#E6F0F8]',
   },
   {
     title: '고위험 가구',
@@ -59,8 +63,8 @@ const statCards = [
     change: `${Math.round((dashboardStats.supported / dashboardStats.totalHouseholds) * 100)}% 완료율`,
     trend: 'up',
     icon: CheckCircle2,
-    color: 'text-green-600',
-    bgColor: 'bg-green-100',
+    color: 'text-[#00A651]',
+    bgColor: 'bg-[#E6F5EC]',
   },
   {
     title: '봉사단 활동',
@@ -162,25 +166,25 @@ export default function DashboardPage() {
                   <Line
                     type="monotone"
                     dataKey="detected"
-                    stroke="#3b82f6"
+                    stroke={KHNP_BLUE}
                     strokeWidth={2}
-                    dot={{ fill: '#3b82f6', strokeWidth: 2 }}
+                    dot={{ fill: KHNP_BLUE, strokeWidth: 2 }}
                     name="발굴"
                   />
                   <Line
                     type="monotone"
                     dataKey="supported"
-                    stroke="#22c55e"
+                    stroke={KHNP_GREEN}
                     strokeWidth={2}
-                    dot={{ fill: '#22c55e', strokeWidth: 2 }}
+                    dot={{ fill: KHNP_GREEN, strokeWidth: 2 }}
                     name="지원"
                   />
                   <Line
                     type="monotone"
                     dataKey="visits"
-                    stroke="#a855f7"
+                    stroke="#7c3aed"
                     strokeWidth={2}
-                    dot={{ fill: '#a855f7', strokeWidth: 2 }}
+                    dot={{ fill: '#7c3aed', strokeWidth: 2 }}
                     name="방문"
                   />
                 </LineChart>
@@ -363,9 +367,9 @@ export default function DashboardPage() {
                     borderRadius: '8px',
                   }}
                 />
-                <Bar dataKey="total" fill="#3b82f6" name="전체" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="total" fill={KHNP_BLUE} name="전체" radius={[0, 4, 4, 0]} />
                 <Bar dataKey="highRisk" fill="#ef4444" name="고위험" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="supported" fill="#22c55e" name="지원완료" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="supported" fill={KHNP_GREEN} name="지원완료" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

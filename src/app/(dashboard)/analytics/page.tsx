@@ -61,6 +61,11 @@ import {
 } from 'recharts';
 import { dashboardStats, monthlyTrends, regionStats, households, welfarePrograms, volunteers } from '@/data/mock-data';
 
+// KHNP CI Colors
+const KHNP_BLUE = '#0066B3';
+const KHNP_GREEN = '#00A651';
+const KHNP_PURPLE = '#7c3aed';
+
 // KPI 데이터
 const kpiData = [
   {
@@ -71,8 +76,8 @@ const kpiData = [
     trend: 8.2,
     description: '전년 대비 발굴률 증가',
     icon: Target,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100',
+    color: 'text-[#0066B3]',
+    bgColor: 'bg-[#E6F0F8]',
   },
   {
     title: '지원 연계 완료율',
@@ -82,8 +87,8 @@ const kpiData = [
     trend: 4.1,
     description: '발굴 가구 대비 지원 완료',
     icon: Heart,
-    color: 'text-green-600',
-    bgColor: 'bg-green-100',
+    color: 'text-[#00A651]',
+    bgColor: 'bg-[#E6F5EC]',
   },
   {
     title: '평균 지원 소요일',
@@ -281,9 +286,9 @@ export default function AnalyticsPage() {
                       }}
                     />
                     <Legend />
-                    <Bar yAxisId="left" dataKey="detected" fill="#3b82f6" name="발굴" radius={[4, 4, 0, 0]} />
-                    <Bar yAxisId="left" dataKey="supported" fill="#22c55e" name="지원완료" radius={[4, 4, 0, 0]} />
-                    <Line yAxisId="right" type="monotone" dataKey="budget" stroke="#a855f7" strokeWidth={2} name="예산(만원)" />
+                    <Bar yAxisId="left" dataKey="detected" fill={KHNP_BLUE} name="발굴" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="supported" fill={KHNP_GREEN} name="지원완료" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="right" type="monotone" dataKey="budget" stroke={KHNP_PURPLE} strokeWidth={2} name="예산(만원)" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
@@ -334,7 +339,7 @@ export default function AnalyticsPage() {
                       <XAxis type="number" className="text-xs" />
                       <YAxis dataKey="name" type="category" width={70} className="text-xs" />
                       <Tooltip />
-                      <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                      <Bar dataKey="count" fill={KHNP_BLUE} radius={[0, 4, 4, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -361,9 +366,9 @@ export default function AnalyticsPage() {
                     <YAxis className="text-xs" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="total" fill="#3b82f6" name="전체" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="total" fill={KHNP_BLUE} name="전체" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="highRisk" fill="#ef4444" name="고위험" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="supported" fill="#22c55e" name="지원완료" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="supported" fill={KHNP_GREEN} name="지원완료" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -388,8 +393,8 @@ export default function AnalyticsPage() {
                     <YAxis yAxisId="right" orientation="right" domain={[0, 5]} className="text-xs" />
                     <Tooltip />
                     <Legend />
-                    <Bar yAxisId="left" dataKey="beneficiaries" fill="#3b82f6" name="수혜자 수" radius={[4, 4, 0, 0]} />
-                    <Line yAxisId="right" type="monotone" dataKey="satisfaction" stroke="#22c55e" strokeWidth={2} name="만족도" />
+                    <Bar yAxisId="left" dataKey="beneficiaries" fill={KHNP_BLUE} name="수혜자 수" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="right" type="monotone" dataKey="satisfaction" stroke={KHNP_GREEN} strokeWidth={2} name="만족도" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
@@ -496,8 +501,8 @@ export default function AnalyticsPage() {
                       <Radar
                         name="성과"
                         dataKey="value"
-                        stroke="#3b82f6"
-                        fill="#3b82f6"
+                        stroke={KHNP_BLUE}
+                        fill={KHNP_BLUE}
                         fillOpacity={0.5}
                       />
                       <Tooltip />
@@ -515,11 +520,11 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="rounded-lg border p-4 text-center">
-                    <p className="text-3xl font-bold text-blue-600">523</p>
+                    <p className="text-3xl font-bold text-[#0066B3]">523</p>
                     <p className="text-sm text-muted-foreground">AI 발굴 가구</p>
                   </div>
                   <div className="rounded-lg border p-4 text-center">
-                    <p className="text-3xl font-bold text-green-600">92%</p>
+                    <p className="text-3xl font-bold text-[#00A651]">92%</p>
                     <p className="text-sm text-muted-foreground">발굴 정확도</p>
                   </div>
                   <div className="rounded-lg border p-4 text-center">
@@ -548,7 +553,7 @@ export default function AnalyticsPage() {
                       </div>
                       <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-blue-500"
+                          className="h-full rounded-full bg-[#0066B3]"
                           style={{ width: `${item.percentage}%` }}
                         />
                       </div>
@@ -580,9 +585,9 @@ export default function AnalyticsPage() {
                     <YAxis domain={[75, 100]} className="text-xs" />
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="accuracy" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} name="정확도" />
-                    <Area type="monotone" dataKey="precision" stroke="#22c55e" fill="#22c55e" fillOpacity={0.3} name="정밀도" />
-                    <Area type="monotone" dataKey="recall" stroke="#a855f7" fill="#a855f7" fillOpacity={0.3} name="재현율" />
+                    <Area type="monotone" dataKey="accuracy" stroke={KHNP_BLUE} fill={KHNP_BLUE} fillOpacity={0.3} name="정확도" />
+                    <Area type="monotone" dataKey="precision" stroke={KHNP_GREEN} fill={KHNP_GREEN} fillOpacity={0.3} name="정밀도" />
+                    <Area type="monotone" dataKey="recall" stroke={KHNP_PURPLE} fill={KHNP_PURPLE} fillOpacity={0.3} name="재현율" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -607,9 +612,9 @@ export default function AnalyticsPage() {
                     <YAxis yAxisId="right" orientation="right" className="text-xs" />
                     <Tooltip />
                     <Legend />
-                    <Bar yAxisId="left" dataKey="visits" fill="#3b82f6" name="방문 횟수" radius={[4, 4, 0, 0]} />
-                    <Bar yAxisId="left" dataKey="households" fill="#22c55e" name="방문 가구" radius={[4, 4, 0, 0]} />
-                    <Line yAxisId="right" type="monotone" dataKey="hours" stroke="#a855f7" strokeWidth={2} name="봉사시간" />
+                    <Bar yAxisId="left" dataKey="visits" fill={KHNP_BLUE} name="방문 횟수" radius={[4, 4, 0, 0]} />
+                    <Bar yAxisId="left" dataKey="households" fill={KHNP_GREEN} name="방문 가구" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="right" type="monotone" dataKey="hours" stroke={KHNP_PURPLE} strokeWidth={2} name="봉사시간" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
@@ -621,8 +626,8 @@ export default function AnalyticsPage() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-blue-100 p-3">
-                    <Users className="h-6 w-6 text-blue-600" />
+                  <div className="rounded-full bg-[#E6F0F8] p-3">
+                    <Users className="h-6 w-6 text-[#0066B3]" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold">{volunteers.length}</p>
@@ -634,8 +639,8 @@ export default function AnalyticsPage() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-green-100 p-3">
-                    <Clock className="h-6 w-6 text-green-600" />
+                  <div className="rounded-full bg-[#E6F5EC] p-3">
+                    <Clock className="h-6 w-6 text-[#00A651]" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold">
@@ -690,8 +695,8 @@ export default function AnalyticsPage() {
                     <PieChart>
                       <Pie
                         data={[
-                          { name: '시니어봉사단', value: volunteers.filter(v => v.type === 'senior').length, color: '#a855f7' },
-                          { name: '임직원봉사단', value: volunteers.filter(v => v.type === 'employee').length, color: '#3b82f6' },
+                          { name: '시니어봉사단', value: volunteers.filter(v => v.type === 'senior').length, color: KHNP_PURPLE },
+                          { name: '임직원봉사단', value: volunteers.filter(v => v.type === 'employee').length, color: KHNP_BLUE },
                         ]}
                         cx="50%"
                         cy="50%"
@@ -701,7 +706,7 @@ export default function AnalyticsPage() {
                         dataKey="value"
                         label={({ name, value }) => `${name}: ${value}명`}
                       >
-                        {[{ color: '#a855f7' }, { color: '#3b82f6' }].map((entry, index) => (
+                        {[{ color: KHNP_PURPLE }, { color: KHNP_BLUE }].map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
@@ -736,7 +741,7 @@ export default function AnalyticsPage() {
                       <XAxis type="number" className="text-xs" />
                       <YAxis dataKey="region" type="category" width={60} className="text-xs" />
                       <Tooltip />
-                      <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                      <Bar dataKey="count" fill={KHNP_BLUE} radius={[0, 4, 4, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
