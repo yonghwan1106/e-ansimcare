@@ -1,21 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,11 +15,9 @@ import {
   CheckCircle2,
   AlertTriangle,
   FileText,
-  Upload,
   Heart,
   User,
-  MapPin,
-  Phone,
+  Loader2,
 } from 'lucide-react';
 import { households, welfarePrograms } from '@/data/mock-data';
 
@@ -38,7 +28,7 @@ const steps = [
   { id: 4, title: '신청 완료', description: '신청이 완료되었습니다' },
 ];
 
-export default function WelfareApplyPage() {
+function WelfareApplyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedProgram = searchParams.get('program');
@@ -514,5 +504,21 @@ export default function WelfareApplyPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  );
+}
+
+export default function WelfareApplyPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <WelfareApplyContent />
+    </Suspense>
   );
 }
