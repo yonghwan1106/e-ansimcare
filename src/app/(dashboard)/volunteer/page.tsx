@@ -124,7 +124,7 @@ export default function VolunteerPage() {
 
   // 최근 활동 (더미)
   const recentActivities = activities
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort((a, b) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime())
     .slice(0, 10);
 
   // 우수 봉사자 (시간 기준)
@@ -437,16 +437,16 @@ export default function VolunteerPage() {
                         <div>
                           <p className="font-medium">{volunteer?.name || '알 수 없음'}</p>
                           <p className="text-sm text-muted-foreground">
-                            {activity.householdId} 방문 • {activity.activityType === 'visit' ? '정기 방문' :
-                            activity.activityType === 'check' ? '안부 확인' :
-                            activity.activityType === 'support' ? '지원 연계' : '기타'}
+                            {activity.householdId} 방문 • {activity.visitType === 'welfare_check' ? '안부 확인' :
+                            activity.visitType === 'delivery' ? '물품 전달' :
+                            activity.visitType === 'inspection' ? '환경 점검' : '긴급 방문'}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">{activity.duration}시간</p>
+                        <p className="font-medium">{activity.duration || 0}분</p>
                         <p className="text-sm text-muted-foreground">
-                          {new Date(activity.date).toLocaleDateString('ko-KR')}
+                          {new Date(activity.scheduledDate).toLocaleDateString('ko-KR')}
                         </p>
                       </div>
                     </div>

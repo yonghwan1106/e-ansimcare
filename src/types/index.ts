@@ -63,6 +63,7 @@ export interface Household {
   assignedPowerPlant: string;
   supportHistory: SupportRecord[];
   consultations: Consultation[];
+  connectedPrograms: string[];
 }
 
 // 복지 사업

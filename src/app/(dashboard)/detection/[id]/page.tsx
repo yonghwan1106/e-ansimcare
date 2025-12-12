@@ -89,14 +89,14 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
   ];
 
   const recommendedPrograms = welfarePrograms
-    .filter(p => p.isActive)
+    .filter(p => p.status === 'active')
     .map(p => {
       let score = 50;
       // 간단한 매칭 로직
       if (household.heatingType === '연탄' && p.id === 'K001') score += 40;
       if (household.heatingType === '기름보일러' && p.id === 'K002') score += 40;
       if (household.characteristics.includes('독거노인')) score += 10;
-      if (household.characteristics.includes('기초수급') && p.eligibility.incomeLevel.includes('기초수급')) score += 20;
+      if (household.characteristics.includes('기초수급') && p.eligibility.includes('기초수급')) score += 20;
       return { ...p, matchScore: Math.min(score, 100) };
     })
     .sort((a, b) => b.matchScore - a.matchScore)
@@ -408,15 +408,15 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
                   className="rounded-lg border p-3 transition-colors hover:bg-muted/50"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant={program.category === 'khnp' ? 'default' : 'outline'}>
-                      {program.category === 'khnp' ? '한수원' : program.category === 'government' ? '정부' : '지자체'}
+                    <Badge variant={program.provider === '한국수력원자력' ? 'default' : 'outline'}>
+                      {program.provider === '한국수력원자력' ? '한수원' : program.provider.includes('부') ? '정부' : '지자체'}
                     </Badge>
                     <span className="text-sm font-medium text-primary">
                       적합도 {program.matchScore}%
                     </span>
                   </div>
                   <p className="font-medium">{program.name}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{program.supportContent}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{program.description}</p>
                 </div>
               ))}
               <Link href={`/welfare?household=${household.id}`}>

@@ -1,13 +1,24 @@
 import type {
   Household,
-  WelfareProgram,
-  Volunteer,
   VisitActivity,
   Alert,
   DashboardStats,
   MonthlyTrend,
   RegionStats,
 } from '@/types';
+
+// 페이지에서 사용하는 봉사자 타입
+type VolunteerData = {
+  id: string;
+  name: string;
+  type: 'senior' | 'employee';
+  affiliation: string;
+  region: string;
+  contact: string;
+  totalVisits: number;
+  totalHours: number;
+  status: 'active' | 'inactive';
+};
 
 // 지역 데이터
 const regions = [
@@ -150,273 +161,216 @@ function generateHouseholds(): Household[] {
       assignedPowerPlant: powerPlants[Math.floor(Math.random() * powerPlants.length)],
       supportHistory,
       consultations: [],
+      connectedPrograms: supportHistory.map(s => s.programId),
     });
   }
 
   return households;
 }
 
-// 복지 사업 데이터
-export const welfarePrograms: WelfareProgram[] = [
+// 복지 사업 데이터 (페이지 형식에 맞춤)
+export const welfarePrograms = [
   {
     id: 'K001',
     name: '연탄 나눔',
-    category: 'khnp',
+    category: 'heating' as const,
     description: '저소득 가구에 연탄을 지원하여 겨울철 난방비 부담을 경감합니다.',
-    detailedDescription: '한수원이 밥상공동체 연탄은행과 함께 2019년부터 매년 진행하는 대표적인 에너지 복지사업입니다. 연탄 보일러를 사용하는 저소득 가구를 대상으로 가구당 최대 3,000장의 연탄을 무료로 지원합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인', '한부모', '조손가정'],
-      housingType: ['단독주택', '다세대', '연립'],
-      heatingType: ['연탄'],
-      region: ['전국'],
-    },
-    supportContent: '연탄 최대 3,000장',
-    supportAmount: '약 60만원 상당',
-    applicationPeriod: { start: '10-01', end: '03-31' },
-    applicationMethod: '담당자 신청',
+    provider: '한국수력원자력',
+    status: 'active' as const,
+    budget: 500000000,
+    currentBeneficiaries: 245,
+    maxBeneficiaries: 500,
+    supportAmount: 600000,
+    startDate: '2024-10-01',
+    endDate: '2025-03-31',
+    eligibility: ['기초수급', '차상위', '독거노인', '장애인'],
     requiredDocuments: ['수급자증명서', '주민등록등본'],
-    isActive: true,
-    remainingBudget: 65,
   },
   {
     id: 'K002',
     name: '난방유 나눔',
-    category: 'khnp',
+    category: 'heating' as const,
     description: '농어촌 지역 저소득 가구에 난방유를 지원합니다.',
-    detailedDescription: '도시가스가 공급되지 않는 농어촌 지역의 기름보일러 사용 가구를 대상으로 난방유를 지원합니다. 2025년 계획 기준 전국 520가구에 총 10,000L를 지원 예정입니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인', '한부모'],
-      housingType: ['단독주택'],
-      heatingType: ['기름보일러'],
-      region: ['농어촌'],
-    },
-    supportContent: '난방유 최대 500L',
-    supportAmount: '약 80만원 상당',
-    applicationPeriod: { start: '11-01', end: '02-28' },
-    applicationMethod: '담당자 신청',
+    provider: '한국수력원자력',
+    status: 'active' as const,
+    budget: 400000000,
+    currentBeneficiaries: 156,
+    maxBeneficiaries: 520,
+    supportAmount: 800000,
+    startDate: '2024-11-01',
+    endDate: '2025-02-28',
+    eligibility: ['기초수급', '차상위', '농어촌 거주'],
     requiredDocuments: ['수급자증명서', '주민등록등본', '난방유 사용 증빙'],
-    isActive: true,
-    remainingBudget: 72,
   },
   {
     id: 'K003',
     name: 'E-안심하우스',
-    category: 'khnp',
+    category: 'housing' as const,
     description: '노후 주택의 에너지 효율을 개선하는 주거 환경 개선 사업입니다.',
-    detailedDescription: '쪽방촌 등 에너지 취약계층의 주거 에너지 효율을 개선하는 사업입니다. 창호 교체, 단열재 설치, 보일러 수리 등을 지원하여 난방비 절감과 쾌적한 주거환경을 제공합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인', '한부모', '조손가정'],
-      housingType: ['단독주택', '다세대', '연립', '쪽방'],
-      heatingType: ['도시가스', '기름보일러', '연탄', '전기'],
-      region: ['전국'],
-    },
-    supportContent: '창호 교체, 단열재 설치, 보일러 수리',
-    supportAmount: '최대 200만원',
-    applicationPeriod: { start: '01-01', end: '12-31' },
-    applicationMethod: '현장 심사',
+    provider: '한국수력원자력',
+    status: 'active' as const,
+    budget: 1000000000,
+    currentBeneficiaries: 89,
+    maxBeneficiaries: 200,
+    supportAmount: 2000000,
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
+    eligibility: ['기초수급', '차상위', '노후주택 거주'],
     requiredDocuments: ['수급자증명서', '주민등록등본', '주택 노후화 사진'],
-    isActive: true,
-    remainingBudget: 45,
   },
   {
     id: 'K004',
     name: '냉방비 지원',
-    category: 'khnp',
+    category: 'cooling' as const,
     description: '혹서기 취약가구의 전기요금을 지원합니다.',
-    detailedDescription: '여름철 폭염으로 인한 건강 위험을 예방하기 위해 에너지 취약가구의 냉방비를 지원합니다. 에어컨, 선풍기 등 냉방기기 사용에 따른 전기요금 부담을 경감합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인', '영유아가구'],
-      housingType: ['단독주택', '다세대', '연립', '아파트'],
-      heatingType: ['전기'],
-      region: ['전국'],
-    },
-    supportContent: '전기요금 지원',
-    supportAmount: '최대 10만원',
-    applicationPeriod: { start: '06-01', end: '08-31' },
-    applicationMethod: '담당자 신청',
+    provider: '한국수력원자력',
+    status: 'ended' as const,
+    budget: 200000000,
+    currentBeneficiaries: 134,
+    maxBeneficiaries: 300,
+    supportAmount: 100000,
+    startDate: '2024-06-01',
+    endDate: '2024-08-31',
+    eligibility: ['기초수급', '차상위', '독거노인', '장애인'],
     requiredDocuments: ['수급자증명서', '전기요금 고지서'],
-    isActive: false,
-    remainingBudget: 0,
   },
   {
     id: 'K005',
     name: '방한용품 지원',
-    category: 'khnp',
+    category: 'heating' as const,
     description: '혹한기 취약가구에 난방용품 세트를 지원합니다.',
-    detailedDescription: '겨울철 혹한으로부터 취약계층을 보호하기 위해 전기장판, 핫팩, 담요 등 방한용품 세트를 지원합니다. 약 100만원 상당의 물품을 지원합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인', '한부모'],
-      housingType: ['단독주택', '다세대', '연립', '쪽방'],
-      heatingType: ['도시가스', '기름보일러', '연탄', '전기'],
-      region: ['전국'],
-    },
-    supportContent: '전기장판, 핫팩, 담요 등 방한용품 세트',
-    supportAmount: '약 100만원 상당',
-    applicationPeriod: { start: '11-01', end: '01-31' },
-    applicationMethod: '담당자 신청',
+    provider: '한국수력원자력',
+    status: 'active' as const,
+    budget: 300000000,
+    currentBeneficiaries: 178,
+    maxBeneficiaries: 300,
+    supportAmount: 1000000,
+    startDate: '2024-11-01',
+    endDate: '2025-01-31',
+    eligibility: ['기초수급', '차상위', '독거노인'],
     requiredDocuments: ['수급자증명서', '주민등록등본'],
-    isActive: true,
-    remainingBudget: 58,
   },
   {
     id: 'G001',
     name: '에너지바우처',
-    category: 'government',
+    category: 'voucher' as const,
     description: '저소득층의 전기, 가스, 난방 비용을 지원하는 정부 사업입니다.',
-    detailedDescription: '산업통상자원부에서 시행하는 에너지 복지사업으로, 에너지 취약계층에게 전기, 도시가스, 지역난방, 등유, LPG, 연탄 구입비를 지원합니다. 2024년 기준 1인 가구 295,200원부터 4인 이상 가구 701,300원까지 지원됩니다.',
-    eligibility: {
-      incomeLevel: ['기초수급'],
-      householdType: ['독거노인', '장애인', '영유아가구', '임산부', '한부모'],
-      housingType: ['전체'],
-      heatingType: ['전체'],
-      region: ['전국'],
-    },
-    supportContent: '에너지 비용 바우처',
-    supportAmount: '295,200원 ~ 701,300원',
-    applicationPeriod: { start: '01-01', end: '12-31' },
-    applicationMethod: '복지로 연계 신청',
+    provider: '산업통상자원부',
+    status: 'active' as const,
+    budget: 5000000000,
+    currentBeneficiaries: 3120,
+    maxBeneficiaries: 10000,
+    supportAmount: 295200,
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
+    eligibility: ['기초수급', '노인', '장애인', '영유아', '임산부'],
     requiredDocuments: ['수급자증명서', '주민등록등본', '가구원특성 증빙'],
-    isActive: true,
-    remainingBudget: 100,
   },
   {
     id: 'G002',
     name: '긴급복지지원',
-    category: 'government',
+    category: 'emergency' as const,
     description: '위기상황에 처한 저소득층에게 생계비, 의료비 등을 긴급 지원합니다.',
-    detailedDescription: '갑작스러운 실직, 질병, 화재 등으로 위기상황에 처한 저소득층에게 생계비, 의료비, 주거비 등을 신속하게 지원하는 제도입니다. 신청 후 72시간 이내 지원 여부가 결정됩니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위', '위기가구'],
-      householdType: ['전체'],
-      housingType: ['전체'],
-      heatingType: ['전체'],
-      region: ['전국'],
-    },
-    supportContent: '생계비, 의료비, 주거비 등',
-    supportAmount: '생계비 최대 162만원',
-    applicationPeriod: { start: '01-01', end: '12-31' },
-    applicationMethod: '주민센터 연계',
+    provider: '보건복지부',
+    status: 'active' as const,
+    budget: 3000000000,
+    currentBeneficiaries: 856,
+    maxBeneficiaries: 5000,
+    supportAmount: 1620000,
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
+    eligibility: ['위기가구', '기초수급', '차상위'],
     requiredDocuments: ['위기상황 증빙', '소득재산 증빙'],
-    isActive: true,
-    remainingBudget: 100,
   },
   {
     id: 'G003',
     name: '기초생활보장',
-    category: 'government',
+    category: 'emergency' as const,
     description: '생활이 어려운 국민에게 생계, 의료, 주거, 교육 급여를 지원합니다.',
-    detailedDescription: '국민기초생활보장제도에 따라 소득인정액이 기준 중위소득 일정 비율 이하인 가구에 생계급여, 의료급여, 주거급여, 교육급여를 지원합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급 대상'],
-      householdType: ['전체'],
-      housingType: ['전체'],
-      heatingType: ['전체'],
-      region: ['전국'],
-    },
-    supportContent: '생계/의료/주거/교육 급여',
-    supportAmount: '가구별 상이',
-    applicationPeriod: { start: '01-01', end: '12-31' },
-    applicationMethod: '주민센터 신청',
+    provider: '보건복지부',
+    status: 'active' as const,
+    budget: 10000000000,
+    currentBeneficiaries: 5430,
+    maxBeneficiaries: 20000,
+    supportAmount: 500000,
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
+    eligibility: ['기초수급 대상'],
     requiredDocuments: ['소득재산 증빙', '가족관계증명서'],
-    isActive: true,
-    remainingBudget: 100,
   },
   {
     id: 'L001',
     name: '서울시 에너지취약계층 지원',
-    category: 'local',
+    category: 'heating' as const,
     description: '서울시 거주 에너지 취약계층에게 난방비를 추가 지원합니다.',
-    detailedDescription: '서울시에서 자체적으로 운영하는 에너지 복지사업으로, 국가 에너지바우처 외에 추가로 난방비를 지원합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인', '장애인'],
-      housingType: ['전체'],
-      heatingType: ['전체'],
-      region: ['서울특별시'],
-    },
-    supportContent: '난방비 추가 지원',
-    supportAmount: '최대 20만원',
-    applicationPeriod: { start: '11-01', end: '03-31' },
-    applicationMethod: '동주민센터 신청',
+    provider: '서울특별시',
+    status: 'active' as const,
+    budget: 800000000,
+    currentBeneficiaries: 456,
+    maxBeneficiaries: 1000,
+    supportAmount: 200000,
+    startDate: '2024-11-01',
+    endDate: '2025-03-31',
+    eligibility: ['기초수급', '차상위', '서울 거주'],
     requiredDocuments: ['수급자증명서', '주민등록등본'],
-    isActive: true,
-    remainingBudget: 40,
   },
   {
     id: 'L002',
     name: '경북 사랑의 연탄나눔',
-    category: 'local',
+    category: 'heating' as const,
     description: '경상북도 저소득층에게 연탄을 지원합니다.',
-    detailedDescription: '경상북도와 지역 기업이 함께하는 연탄 나눔 사업으로, 농촌 지역 독거노인 가구 등에 연탄을 지원합니다.',
-    eligibility: {
-      incomeLevel: ['기초수급', '차상위'],
-      householdType: ['독거노인'],
-      housingType: ['단독주택'],
-      heatingType: ['연탄'],
-      region: ['경상북도'],
-    },
-    supportContent: '연탄 지원',
-    supportAmount: '연탄 2,000장',
-    applicationPeriod: { start: '10-01', end: '02-28' },
-    applicationMethod: '읍면동사무소 신청',
+    provider: '경상북도',
+    status: 'upcoming' as const,
+    budget: 200000000,
+    currentBeneficiaries: 0,
+    maxBeneficiaries: 400,
+    supportAmount: 400000,
+    startDate: '2025-01-01',
+    endDate: '2025-02-28',
+    eligibility: ['기초수급', '차상위', '경북 거주'],
     requiredDocuments: ['수급자증명서', '주민등록등본'],
-    isActive: true,
-    remainingBudget: 55,
   },
 ];
 
-// 봉사자 데이터 생성 (200+)
-function generateVolunteers(): Volunteer[] {
-  const volunteers: Volunteer[] = [];
+// 봉사자 데이터 생성 (200+) - 페이지 형식에 맞춤
+function generateVolunteers(): VolunteerData[] {
+  const volunteers: VolunteerData[] = [];
   const names = ['김', '이', '박', '최', '정', '강', '조', '윤', '장', '임'];
   const firstNames = ['민수', '영희', '철수', '영호', '수진', '미영', '성호', '지연', '현우', '서연', '동훈', '유진', '재민', '소영', '준혁'];
+  const affiliations = ['고리본부', '한빛본부', '한울본부', '월성본부', '새울본부', '신고리본부'];
+  const regionNames = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
 
   // 시니어봉사단 150명
   for (let i = 1; i <= 150; i++) {
     const name = names[Math.floor(Math.random() * names.length)] + firstNames[Math.floor(Math.random() * firstNames.length)];
-    const regionList = regions.filter(() => Math.random() > 0.7).slice(0, 3);
 
     volunteers.push({
       id: `VOL-S-${String(i).padStart(3, '0')}`,
       name,
       type: 'senior',
-      powerPlant: powerPlants[Math.floor(Math.random() * powerPlants.length)],
-      region: regionList.map(r => r.sigungu),
+      affiliation: affiliations[Math.floor(Math.random() * affiliations.length)],
+      region: regionNames[Math.floor(Math.random() * regionNames.length)],
       contact: `010-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-      stats: {
-        totalVisits: 20 + Math.floor(Math.random() * 100),
-        totalHours: 40 + Math.floor(Math.random() * 200),
-        thisMonthVisits: Math.floor(Math.random() * 15),
-        thisMonthHours: Math.floor(Math.random() * 30),
-      },
-      isActive: Math.random() > 0.1,
+      totalVisits: 20 + Math.floor(Math.random() * 100),
+      totalHours: 40 + Math.floor(Math.random() * 200),
+      status: Math.random() > 0.1 ? 'active' : 'inactive',
     });
   }
 
   // 임직원봉사단 50명
   for (let i = 1; i <= 50; i++) {
     const name = names[Math.floor(Math.random() * names.length)] + firstNames[Math.floor(Math.random() * firstNames.length)];
-    const regionList = regions.filter(() => Math.random() > 0.7).slice(0, 2);
 
     volunteers.push({
       id: `VOL-E-${String(i).padStart(3, '0')}`,
       name,
       type: 'employee',
-      powerPlant: powerPlants[Math.floor(Math.random() * powerPlants.length)],
-      region: regionList.map(r => r.sigungu),
+      affiliation: affiliations[Math.floor(Math.random() * affiliations.length)],
+      region: regionNames[Math.floor(Math.random() * regionNames.length)],
       contact: `010-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-      stats: {
-        totalVisits: 10 + Math.floor(Math.random() * 50),
-        totalHours: 20 + Math.floor(Math.random() * 100),
-        thisMonthVisits: Math.floor(Math.random() * 8),
-        thisMonthHours: Math.floor(Math.random() * 16),
-      },
-      isActive: Math.random() > 0.05,
+      totalVisits: 10 + Math.floor(Math.random() * 50),
+      totalHours: 20 + Math.floor(Math.random() * 100),
+      status: Math.random() > 0.05 ? 'active' : 'inactive',
     });
   }
 
@@ -424,7 +378,7 @@ function generateVolunteers(): Volunteer[] {
 }
 
 // 방문 활동 데이터 생성 (1000+)
-function generateActivities(households: Household[], volunteers: Volunteer[]): VisitActivity[] {
+function generateActivities(households: Household[], volunteers: VolunteerData[]): VisitActivity[] {
   const activities: VisitActivity[] = [];
   const visitTypes: VisitActivity['visitType'][] = ['welfare_check', 'delivery', 'inspection', 'emergency'];
   const statuses: VisitActivity['status'][] = ['scheduled', 'completed', 'cancelled', 'rescheduled'];
@@ -519,7 +473,7 @@ export const dashboardStats: DashboardStats = {
   supported: households.filter(h => h.status === 'supported' || h.status === 'monitoring').length,
   inProgress: households.filter(h => h.status === 'investigating' || h.status === 'connected').length,
   totalVolunteers: volunteers.length,
-  activeVolunteers: volunteers.filter(v => v.isActive).length,
+  activeVolunteers: volunteers.filter(v => v.status === 'active').length,
   thisMonthVisits: activities.filter(a => {
     const date = new Date(a.scheduledDate);
     const now = new Date();
