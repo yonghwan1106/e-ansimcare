@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { WelfareProgramsSkeleton } from '@/components/ui/loading-skeletons';
+import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
@@ -120,12 +121,10 @@ export default function WelfarePage() {
           <h1 className="text-2xl font-bold">복지서비스 연계</h1>
           <p className="text-muted-foreground">에너지 취약계층을 위한 복지사업을 관리하고 연계합니다.</p>
         </div>
-        <Link href="/welfare/apply">
-          <Button className="gap-2">
-            <Heart className="h-4 w-4" />
-            신규 연계 신청
-          </Button>
-        </Link>
+        <Button className="gap-2" onClick={() => toast.success('신규 연계 신청이 접수되었습니다', { description: '담당자가 검토 후 연락드리겠습니다.' })}>
+          <Heart className="h-4 w-4" />
+          신규 연계 신청
+        </Button>
       </div>
 
       {/* Stats */}

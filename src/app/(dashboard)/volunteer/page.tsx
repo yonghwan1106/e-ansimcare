@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { VolunteerSkeleton } from '@/components/ui/loading-skeletons';
+import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
@@ -160,7 +161,7 @@ export default function VolunteerPage() {
               일정 관리
             </Button>
           </Link>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => toast.info('봉사자 등록 페이지로 이동합니다', { description: '(데모 버전입니다)' })}>
             <UserPlus className="h-4 w-4" />
             봉사자 등록
           </Button>

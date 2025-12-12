@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { toast } from 'sonner';
 import {
   ArrowLeft,
   AlertTriangle,
@@ -126,11 +127,11 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2" onClick={() => toast.info('연락처 정보를 확인합니다', { description: `${household.address} 가구 담당자에게 연락 예정` })}>
             <Phone className="h-4 w-4" />
             연락하기
           </Button>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => toast.success('복지 연계 요청이 접수되었습니다', { description: `${household.id} 가구에 대한 복지서비스 연계를 진행합니다.` })}>
             <Heart className="h-4 w-4" />
             복지 연계
           </Button>
@@ -497,15 +498,15 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
               <CardTitle className="text-lg">빠른 조치</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button variant="outline" className="w-full justify-start gap-2">
+              <Button variant="outline" className="w-full justify-start gap-2" onClick={() => toast.success('봉사단 방문이 배정되었습니다', { description: '가까운 봉사자에게 알림을 전송했습니다.' })}>
                 <Users className="h-4 w-4" />
                 봉사단 방문 배정
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2">
+              <Button variant="outline" className="w-full justify-start gap-2" onClick={() => toast.info('담당자에게 연락을 시도합니다')}>
                 <Phone className="h-4 w-4" />
                 담당자 연락
               </Button>
-              <Button variant="outline" className="w-full justify-start gap-2">
+              <Button variant="outline" className="w-full justify-start gap-2" onClick={() => toast.info('상담 기록 작성 화면으로 이동합니다', { description: '(데모 버전입니다)' })}>
                 <FileText className="h-4 w-4" />
                 상담 기록 작성
               </Button>

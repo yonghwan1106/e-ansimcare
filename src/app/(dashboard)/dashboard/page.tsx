@@ -355,39 +355,81 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Regional Stats */}
+      {/* Regional Stats - Map Style */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <MapPin className="h-5 w-5" />
-            지역별 현황
+            지역별 발굴 현황 지도
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={regionStats.slice(0, 10)} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis type="number" className="text-xs" />
-                <YAxis
-                  dataKey="sido"
-                  type="category"
-                  width={80}
-                  className="text-xs"
-                  tickFormatter={(value) => value.replace(/특별시|광역시|도/g, '')}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                  }}
-                />
-                <Bar dataKey="total" fill={KHNP_BLUE} name="전체" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="highRisk" fill="#ef4444" name="고위험" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="supported" fill={KHNP_GREEN} name="지원완료" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {regionStats.slice(0, 12).map((region) => {
+              const riskLevel = region.highRisk / region.total;
+              const bgColor = riskLevel > 0.3 ? 'bg-red-50 border-red-200' :
+                             riskLevel > 0.2 ? 'bg-orange-50 border-orange-200' :
+                             riskLevel > 0.1 ? 'bg-yellow-50 border-yellow-200' :
+                             'bg-green-50 border-green-200';
+              const dotColor = riskLevel > 0.3 ? 'bg-red-500' :
+                              riskLevel > 0.2 ? 'bg-orange-500' :
+                              riskLevel > 0.1 ? 'bg-yellow-500' :
+                              'bg-green-500';
+
+              return (
+                <div
+                  key={region.sido}
+                  className={`relative rounded-lg border-2 p-3 transition-all hover:shadow-md cursor-pointer ${bgColor}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-semibold text-sm">
+                      {region.sido.replace(/특별시|광역시|특별자치시|도|특별자치도/g, '')}
+                    </span>
+                    <span className={`h-2.5 w-2.5 rounded-full ${dotColor} animate-pulse`} />
+                  </div>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">발굴</span>
+                      <span className="font-medium">{region.total}건</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-red-600">고위험</span>
+                      <span className="font-medium text-red-600">{region.highRisk}건</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-green-600">완료</span>
+                      <span className="font-medium text-green-600">{region.supported}건</span>
+                    </div>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="mt-2 h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
+                    <div
+                      className="h-full bg-[#00A651] transition-all"
+                      style={{ width: `${(region.supported / region.total) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Legend */}
+          <div className="mt-4 flex flex-wrap justify-center gap-4 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
+              <span>고위험 30%+</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-orange-500" />
+              <span>고위험 20-30%</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
+              <span>고위험 10-20%</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+              <span>고위험 10% 미만</span>
+            </div>
           </div>
         </CardContent>
       </Card>
