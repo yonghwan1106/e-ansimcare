@@ -225,6 +225,72 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
                   </div>
                 ))}
               </div>
+
+              {/* AI 분석 근거 텍스트 */}
+              <Separator className="my-6" />
+              <div className="space-y-4">
+                <h4 className="font-semibold text-[#0066B3] flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  AI 분석 근거 상세
+                </h4>
+                <div className="bg-muted/50 rounded-lg p-4 space-y-3 text-sm">
+                  {household.riskFactors.powerUsageAnomaly >= 60 && (
+                    <div className="flex gap-2">
+                      <span className="text-red-500 font-medium">[전력 패턴 이상]</span>
+                      <span>최근 3개월간 전력 사용량이 평균 대비 {Math.round((1 - household.riskFactors.powerUsageAnomaly/100) * 50)}% 감소했습니다.
+                      에너지 빈곤으로 인한 전력 사용 억제 패턴이 감지되었습니다.</span>
+                    </div>
+                  )}
+                  {household.riskFactors.paymentDelay >= 50 && (
+                    <div className="flex gap-2">
+                      <span className="text-orange-500 font-medium">[요금 체납]</span>
+                      <span>최근 {Math.round(household.riskFactors.paymentDelay/20)}개월간 전기요금 납부 지연 이력이 확인되었습니다.
+                      경제적 어려움으로 인한 요금 체납 위험이 있습니다.</span>
+                    </div>
+                  )}
+                  {household.riskFactors.disconnectionHistory >= 40 && (
+                    <div className="flex gap-2">
+                      <span className="text-red-600 font-medium">[단전 이력]</span>
+                      <span>과거 {Math.round(household.riskFactors.disconnectionHistory/30)}회의 단전 또는 단전 예고 이력이 있습니다.
+                      재발 방지를 위한 선제적 지원이 필요합니다.</span>
+                    </div>
+                  )}
+                  {household.riskFactors.welfareChange >= 40 && (
+                    <div className="flex gap-2">
+                      <span className="text-purple-500 font-medium">[복지 변동]</span>
+                      <span>최근 기초수급 자격 변동 또는 복지서비스 중단 이력이 감지되었습니다.
+                      복지 사각지대 진입 위험이 있습니다.</span>
+                    </div>
+                  )}
+                  {household.riskFactors.householdRisk >= 50 && (
+                    <div className="flex gap-2">
+                      <span className="text-blue-500 font-medium">[가구 특성]</span>
+                      <span>{household.characteristics.join(', ')} 가구로 분류됩니다.
+                      해당 특성의 가구는 에너지 취약계층으로 분류되어 집중 관리가 필요합니다.</span>
+                    </div>
+                  )}
+                  {household.riskFactors.seasonalRisk >= 40 && (
+                    <div className="flex gap-2">
+                      <span className="text-cyan-500 font-medium">[계절 위험]</span>
+                      <span>현재 계절 기준 {household.heatingType === '연탄' || household.heatingType === '기름보일러' ? '난방비 부담' : '냉방비 부담'}이
+                      예상됩니다. 계절성 에너지 취약 지원이 권장됩니다.</span>
+                    </div>
+                  )}
+                  <div className="pt-2 border-t border-border mt-3">
+                    <p className="text-muted-foreground">
+                      <strong className="text-foreground">종합 의견:</strong> 위 {radarData.filter(r => r.value >= 40).length}개 요인을 종합 분석한 결과,
+                      해당 가구는 <span className={
+                        household.riskLevel === 'critical' ? 'text-red-600 font-semibold' :
+                        household.riskLevel === 'high' ? 'text-orange-600 font-semibold' :
+                        household.riskLevel === 'medium' ? 'text-yellow-600 font-semibold' : 'text-green-600 font-semibold'
+                      }>{riskLevelLabels[household.riskLevel]}</span> 등급으로 분류되었습니다.
+                      {household.riskScore >= 70 ? ' 즉각적인 복지서비스 연계 및 현장 방문이 권장됩니다.' :
+                       household.riskScore >= 50 ? ' 지속적인 모니터링과 함께 복지서비스 연계를 검토해주세요.' :
+                       ' 정기적인 모니터링을 통해 상황 변화를 추적해주세요.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 

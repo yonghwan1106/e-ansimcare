@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { AnalyticsSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Select,
   SelectContent,
@@ -178,7 +179,19 @@ const volunteerImpact = [
 ];
 
 export default function AnalyticsPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [period, setPeriod] = useState('year');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 900);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <AnalyticsSkeleton />;
+  }
 
   return (
     <div className="space-y-6">

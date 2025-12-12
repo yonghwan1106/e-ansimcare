@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { ChatSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Send,
   Bot,
@@ -213,6 +214,7 @@ const botResponses: Record<string, { content: string; options?: { label: string;
 };
 
 export default function ChatPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -231,6 +233,13 @@ export default function ChatPage() {
   const [isTyping, setIsTyping] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // 스크롤을 아래로
@@ -339,6 +348,10 @@ export default function ChatPage() {
       },
     ]);
   };
+
+  if (isLoading) {
+    return <ChatSkeleton />;
+  }
 
   return (
     <div className="flex h-[calc(100vh-8rem)] gap-6">

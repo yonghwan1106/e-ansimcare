@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { VolunteerSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Select,
   SelectContent,
@@ -89,10 +90,18 @@ const typeDistribution = [
 ];
 
 export default function VolunteerPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [regionFilter, setRegionFilter] = useState<string>('all');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 650);
+    return () => clearTimeout(timer);
+  }, []);
 
   const regions = useMemo(() => {
     const uniqueRegions = [...new Set(volunteers.map(v => v.region))];
@@ -131,6 +140,10 @@ export default function VolunteerPage() {
   const topVolunteers = [...volunteers]
     .sort((a, b) => b.totalHours - a.totalHours)
     .slice(0, 5);
+
+  if (isLoading) {
+    return <VolunteerSkeleton />;
+  }
 
   return (
     <div className="space-y-6">

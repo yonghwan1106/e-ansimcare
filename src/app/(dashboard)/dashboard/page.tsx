@@ -1,9 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { DashboardSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Users,
   AlertTriangle,
@@ -91,6 +93,20 @@ const recentHighRiskHouseholds = households
 const recentAlerts = alerts.filter(a => !a.isRead).slice(0, 5);
 
 export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 데이터 로딩 시뮬레이션 (실제 API 연동 시 대체)
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}

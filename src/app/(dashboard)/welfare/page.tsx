@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { WelfareProgramsSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Select,
   SelectContent,
@@ -68,10 +69,18 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function WelfarePage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [providerFilter, setProviderFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   const providers = useMemo(() => {
     const uniqueProviders = [...new Set(welfarePrograms.map(p => p.provider))];
@@ -98,6 +107,10 @@ export default function WelfarePage() {
     totalBudget: welfarePrograms.reduce((sum, p) => sum + p.budget, 0),
     totalBeneficiaries: welfarePrograms.reduce((sum, p) => sum + p.currentBeneficiaries, 0),
   }), []);
+
+  if (isLoading) {
+    return <WelfareProgramsSkeleton />;
+  }
 
   return (
     <div className="space-y-6">

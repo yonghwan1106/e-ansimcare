@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { HouseholdListSkeleton } from '@/components/ui/loading-skeletons';
 import {
   Select,
   SelectContent,
@@ -65,6 +66,7 @@ const statusColors = {
 };
 
 export default function DetectionPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [riskFilter, setRiskFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -72,6 +74,13 @@ export default function DetectionPage() {
   const [sortField, setSortField] = useState<'riskScore' | 'detectedAt'>('riskScore');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const regions = useMemo(() => {
     const uniqueRegions = [...new Set(households.map(h => h.region.sido))];
@@ -120,6 +129,10 @@ export default function DetectionPage() {
       setSortOrder('desc');
     }
   };
+
+  if (isLoading) {
+    return <HouseholdListSkeleton />;
+  }
 
   return (
     <div className="space-y-6">
