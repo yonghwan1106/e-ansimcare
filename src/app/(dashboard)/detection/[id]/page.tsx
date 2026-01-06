@@ -127,7 +127,7 @@ export default function DetectionDetailPage({ params }: { params: Promise<{ id: 
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="gap-2" onClick={() => toast.info('연락처 정보를 확인합니다', { description: `${household.address} 가구 담당자에게 연락 예정` })}>
+          <Button variant="outline" className="gap-2" onClick={() => toast.info('연락처 정보를 확인합니다', { description: `${household.region.sigungu} ${household.region.dong} 가구 담당자에게 연락 예정` })}>
             <Phone className="h-4 w-4" />
             연락하기
           </Button>
